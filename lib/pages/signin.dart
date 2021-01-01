@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:auth/services/auth.dart';
+import 'package:auth/models/auth.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -51,15 +51,13 @@ class _SignInPageState extends State<SignInPage> {
                     form.save();
 
                     if (form.validate()) {
-                      print("$_email $_password");
                       try {
-                        await Provider.of<AuthService>(context, listen: false)
-                            .loginUser(
+                        await Provider.of<AuthModel>(context, listen: false)
+                            .login(
                             email: _email,
                             password: _password
                         );
                       } catch (error) {
-                        print("got error: ${error.toString()}");
                         setState(() {
                           _error = error.toString();
                         });
@@ -71,7 +69,7 @@ class _SignInPageState extends State<SignInPage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/signup');
                   },
-                  child: Text('Sign Up')),
+                  child: Text('Register a new account.')),
             ]
           )
         )

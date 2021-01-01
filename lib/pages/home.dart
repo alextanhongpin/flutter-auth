@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:auth/services/auth.dart';
+import 'package:auth/models/auth.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,10 +12,10 @@ class HomePage extends StatelessWidget {
         body: Center(
             child: Column(
                 children: [
-                  Consumer<AuthService>(
-                    builder: (BuildContext context, AuthService service, child) {
-                      var user = service.currentUser;
-                      return Text(user['email']);
+                  Consumer<AuthModel>(
+                    builder: (BuildContext context, AuthModel model, child) {
+                      var user = model.user;
+                      return Text(user.email);
                     }
                   ),
                   TextButton(
@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      Provider.of<AuthService>(context, listen: false).logout();
+                      Provider.of<AuthModel>(context, listen: false).logout();
                     },
                     child: Text('Logout')
                   )
