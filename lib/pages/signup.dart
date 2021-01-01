@@ -5,9 +5,18 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Startup Name Generator'),
+          title: Text('Sign Up'),
         ),
-        body: Text('sign up')
+        body: Column(
+          children: <Widget>[
+            TextButton(
+                child: Text("Sign in"),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/signin');
+                }
+            )
+          ]
+        )
     );
   }
 }

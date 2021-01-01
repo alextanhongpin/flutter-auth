@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+
+// Pages.
 import 'pages/signin.dart';
 import 'pages/signup.dart';
 import 'pages/home.dart';
+import 'pages/about.dart';
+
+// Services.
 import 'services/auth.dart';
-import 'package:provider/provider.dart';
 
 void main() => runApp(
     ChangeNotifierProvider<AuthService>(
@@ -33,6 +39,7 @@ class MyApp extends StatelessWidget {
         }
       ),
       routes: <String, WidgetBuilder> {
+        '/about': (BuildContext context) => AboutPage(),
         '/signin': (BuildContext context) => SignInPage(),
         '/signup': (BuildContext context) => SignUpPage()
       }

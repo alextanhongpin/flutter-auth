@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 
 class AuthService with ChangeNotifier {
   var currentUser;
-  
-  Future getUser() {
-    return Future.value(currentUser);
+
+  Future getUser() async {
+    return currentUser;
   }
 
-  Future logout() {
+  Future logout() async {
     this.currentUser = null;
     notifyListeners();
-    return Future.value(currentUser);
   }
 
   Future createUser({
@@ -23,14 +22,13 @@ class AuthService with ChangeNotifier {
 
   }
 
-  Future loginUser({ String email, String password }) {
+  Future loginUser({ String email, String password }) async {
     if (password == '1234') {
-      this.currentUser = { email };
+      this.currentUser = { 'email': email };
       notifyListeners();
-      return Future.value(currentUser);
+      return currentUser;
     }
     this.currentUser = null;
-    notifyListeners();
-    return Future.error('Wrong username or password');
+    throw Exception('Wrong username or password');
   }
 }

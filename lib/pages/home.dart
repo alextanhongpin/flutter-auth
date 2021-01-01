@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:auth/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
-          title: Text('Startup name generator'),
+          title: Text('Home'),
         ),
         body: Center(
             child: Column(
                 children: [
-                  TextButton(
-                      child: Text("Sign Up"),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup');
-                      }
+                  Consumer<AuthService>(
+                    builder: (BuildContext context, AuthService service, child) {
+                      var user = service.currentUser;
+                      return Text(user['email']);
+                    }
                   ),
                   TextButton(
-                      child: Text("Sign in"),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/signin');
-                      }
+                        Navigator.pushNamed(context, '/about');
+                      },
+                      child: Text('Go to about')
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Provider.of<AuthService>(context, listen: false).logout();
+                    },
+                    child: Text('Logout')
                   )
                 ]
             )

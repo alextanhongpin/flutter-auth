@@ -59,8 +59,9 @@ class _SignInPageState extends State<SignInPage> {
                             password: _password
                         );
                       } catch (error) {
+                        print("got error: ${error.toString()}");
                         setState(() {
-                          _error = error;
+                          _error = error.toString();
                         });
                       }
                     }
