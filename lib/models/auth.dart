@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,7 +15,16 @@ class AuthModel with ChangeNotifier {
 
   Future<User> authorize() async {
     if (user != null) return user;
+
+    // Don't authorize if there are no token.
+    String token = await _getToken();
+    if (token.isEmpty) {
+      return user;
+    }
+
     user = await postAuthorize();
+    notifyListeners();
+
     return user;
   }
 
@@ -26,19 +36,21 @@ class AuthModel with ChangeNotifier {
   }
 
   register({String email, String password}) async {
-    Credentials credential = await postRegister(email: email, password: password);
+    Credentials credential = await postRegister(
+        email: email,
+        password: password
+    );
     await _storeToken(credential.accessToken);
     await this.authorize();
-
-    notifyListeners();
   }
 
   login({ String email, String password }) async {
-    Credentials credential = await postLogin(email: email, password: password);
+    Credentials credential = await postLogin(
+        email: email,
+        password: password
+    );
     await _storeToken(credential.accessToken);
     await this.authorize();
-
-    notifyListeners();
   }
 
   Future<bool> _storeToken(String accessToken) async {
@@ -51,5 +63,11 @@ class AuthModel with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.remove('accessToken');
+  }
+
+  Future<String> _getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString('accessToken') ?? '';
   }
 }

@@ -54,7 +54,7 @@ Future<User> postAuthorize() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String accessToken = prefs.getString('accessToken') ?? '';
   if (accessToken.isEmpty) {
-    throw Exception('You are not logged in');
+    return null;
   }
   final response = await http.post(
       buildURL('/authorize'),

@@ -25,26 +25,30 @@ void main() => runApp(
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Welcome to Flutter',
-        home: FutureBuilder(
-          // Get the provider, and call the getUser method.
-            future: Provider.of<AuthModel>(context).authorize(),
+    return FutureBuilder(
+      // Get the provider, and call the getUser method.
+        future: context.watch<AuthModel>().authorize(),
 
-            // Wait for the future to resolve and render the appropriate widget for HomePage or LoginPage.
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  return snapshot.hasData ? HomePage() : SignInPage();
-                default:
-                  return CircularProgressIndicator();
-              }
-            }
-        ),
-        routes: <String, WidgetBuilder> {
-          '/about': (BuildContext context) => AboutPage(),
-          '/signin': (BuildContext context) => SignInPage(),
-          '/signup': (BuildContext context) => SignUpPage()
+        // Wait for the future to resolve and render the appropriate widget for public or private pages.
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return snapshot.hasData ? MaterialApp(
+                  home: HomePage(),
+                  routes: <String, WidgetBuilder> {
+                    '/about': (BuildContext context) => AboutPage()
+                  }
+              ) : MaterialApp(
+                  home: SignInPage(),
+                  routes: <String, WidgetBuilder> {
+                    '/signin': (BuildContext context) => SignInPage(),
+                    '/signup': (BuildContext context) => SignUpPage()
+                  }
+              )
+              ;
+            default:
+              return CircularProgressIndicator();
+          }
         }
     );
   }

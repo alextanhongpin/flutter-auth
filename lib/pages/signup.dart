@@ -50,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                     if (form.validate()) {
                       try {
-                        await Provider.of<AuthModel>(context, listen: false)
+                        await context.read<AuthModel>()
                             .register(
                             email: _email,
                             password: _password
@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signin');
+                    Navigator.pushNamedAndRemoveUntil(context, '/signin', ModalRoute.withName('/signin'));
                   },
                   child: Text('Already have an account? Sign In.')),
             ],

@@ -12,12 +12,7 @@ class HomePage extends StatelessWidget {
         body: Center(
             child: Column(
                 children: [
-                  Consumer<AuthModel>(
-                    builder: (BuildContext context, AuthModel model, child) {
-                      var user = model.user;
-                      return Text(user.email);
-                    }
-                  ),
+                  Text(context.watch<AuthModel>().user.email),
                   TextButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/about');
@@ -26,7 +21,7 @@ class HomePage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      Provider.of<AuthModel>(context, listen: false).logout();
+                      context.read<AuthModel>().logout();
                     },
                     child: Text('Logout')
                   )
