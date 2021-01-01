@@ -14,9 +14,7 @@ class AuthModel with ChangeNotifier {
 
   Future<User> authorize() async {
     if (user != null) return user;
-
     user = await postAuthorize();
-    notifyListeners();
     return user;
   }
 
@@ -30,13 +28,17 @@ class AuthModel with ChangeNotifier {
   register({String email, String password}) async {
     Credentials credential = await postRegister(email: email, password: password);
     await _storeToken(credential.accessToken);
-    this.authorize();
+    await this.authorize();
+
+    notifyListeners();
   }
 
   login({ String email, String password }) async {
     Credentials credential = await postLogin(email: email, password: password);
     await _storeToken(credential.accessToken);
-    this.authorize();
+    await this.authorize();
+
+    notifyListeners();
   }
 
   Future<bool> _storeToken(String accessToken) async {

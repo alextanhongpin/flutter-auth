@@ -43,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               SizedBox(height: 20.0),
               RaisedButton(
-                  child: Text('Login'),
+                  child: Text('Create Account'),
                   onPressed: () async {
                     final form = _formKey.currentState;
                     form.save();
