@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../services/auth.dart';
+import 'package:auth/services/auth.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -11,6 +11,7 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   String _password;
   String _email;
+  String _error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,8 @@ class _SignInPageState extends State<SignInPage> {
                   style: TextStyle(fontSize: 20.0)
               ),
               SizedBox(height: 20.0),
+              _error.isEmpty ? Text('') : Text(_error),
+              SizedBox(height: 20.0),
               TextFormField(
                 onSaved: (value) => _email = value,
                 keyboardType: TextInputType.emailAddress,
@@ -43,19 +46,31 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(height: 20.0),
               RaisedButton(
                   child: Text('Login'),
-                  onPressed: () {
+                  onPressed: () async {
                     final form = _formKey.currentState;
                     form.save();
 
                     if (form.validate()) {
                       print("$_email $_password");
-                      Provider.of<AuthService>(context, listen: false).loginUser(
-                          email:_email,
-                          password:_password
-                      );
+                      try {
+                        await Provider.of<AuthService>(context, listen: false)
+                            .loginUser(
+                            email: _email,
+                            password: _password
+                        );
+                      } catch (error) {
+                        setState(() {
+                          _error = error;
+                        });
+                      }
                     }
                   }
-              )
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
+                  child: Text('Sign Up')),
             ]
           )
         )

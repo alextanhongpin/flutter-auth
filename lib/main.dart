@@ -24,10 +24,11 @@ class MyApp extends StatelessWidget {
 
         // Wait for the future to resolve and render the appropriate widget for HomePage or LoginPage.
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return snapshot.hasData ? HomePage() : SignInPage();
-          } else {
-            return Container(color: Colors.white);
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return snapshot.hasData ? HomePage() : SignInPage();
+            default:
+              return CircularProgressIndicator();
           }
         }
       ),
