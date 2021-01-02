@@ -30,20 +30,42 @@ class _SignInPageState extends State<SignInPage> {
                   style: TextStyle(fontSize: 20.0)
               ),
               SizedBox(height: 20.0),
+
               _error.isEmpty ? Text('') : Text(_error),
               SizedBox(height: 20.0),
+
               TextFormField(
                 onSaved: (value) => _email = value,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(labelText: 'Email Address'),
+                validator: (email) {
+                  if (email.isEmpty) {
+                    return 'Email is required';
+                  }
+                  if (!email.contains('@')) {
+                    return 'Email is invalid';
+                  }
+                  return null;
+                }
               ),
               SizedBox(height: 20.0),
+
               TextFormField(
                 onSaved: (value) => _password = value,
                 obscureText: true,
                 decoration: InputDecoration(labelText: 'Password'),
+                validator: (password) {
+                  if (password.isEmpty) {
+                    return 'Password is required';
+                  }
+                  if (password.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                }
               ),
               SizedBox(height: 20.0),
+
               RaisedButton(
                   child: Text('Login'),
                   onPressed: () async {
