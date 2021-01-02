@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auth/models/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:auth/components/star-rating.dart';
+import 'package:auth/components/restaurant-list.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -16,10 +17,17 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Text(
-                "Welcome ${user}",
-                style: TextStyle(fontSize: 20.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Welcome ${user}",
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
               ),
+              SizedBox(height: 20.0),
+
+              RestaurantList(),
+              SizedBox(height: 20.0),
 
               Row(
                 children: [

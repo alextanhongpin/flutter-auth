@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auth/components/restaurant-list.dart';
 
 class AboutPage extends StatelessWidget {
   @override
@@ -7,7 +8,7 @@ class AboutPage extends StatelessWidget {
         appBar: AppBar(
           title: Text('About Page'),
         ),
-        body: Text('About page')
+        body: RestaurantList()
     );
   }
 }
