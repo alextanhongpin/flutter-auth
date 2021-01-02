@@ -10,7 +10,7 @@ class StarRating extends StatelessWidget {
 
   StarRating({ this.starCount = 5, this.rating = 0.0, this.onRatingChanged, this.color });
 
-  Widget buildStar(BuildContext context, int index) {
+  Widget _buildStar(BuildContext context, int index) {
     Icon icon;
     if (index >= rating) {
       icon = new Icon(
@@ -37,6 +37,6 @@ class StarRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Row(children: new List.generate(starCount, (index) => buildStar(context, index)));
+    return new Row(children: new List.generate(starCount, (index) => _buildStar(context, index)));
   }
 }
