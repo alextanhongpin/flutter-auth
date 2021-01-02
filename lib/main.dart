@@ -21,13 +21,12 @@ void main() => runApp(
     )
 );
 
-
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       // Get the provider, and call the getUser method.
-        future: context.watch<AuthModel>().authorize(),
+        future: context.watch<AuthModel>().fetchUser(),
 
         // Wait for the future to resolve and render the appropriate widget for public or private pages.
         builder: (BuildContext context, AsyncSnapshot snapshot) {

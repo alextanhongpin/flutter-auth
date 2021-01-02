@@ -13,19 +13,28 @@ import 'package:auth/apis/auth.dart';
 class AuthModel with ChangeNotifier {
   User user;
 
-  Future<User> authorize() async {
-    if (user != null) return user;
+  AuthModel() {
+    // The right way to call the method once instead of putting it in
+    // initState in a stateful widget.
+    authorize();
+  }
+
+  Future<User> fetchUser() async {
+    return user;
+  }
+
+  authorize() async {
+    // Skip if user is already authorized.
+    if (user != null) return;
 
     // Don't authorize if there are no token.
     String token = await _getToken();
     if (token.isEmpty) {
-      return user;
+      return;
     }
 
     user = await postAuthorize();
     notifyListeners();
-
-    return user;
   }
 
   logout() async {
