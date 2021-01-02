@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auth/models/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:auth/components/star-rating.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -29,7 +30,8 @@ class HomePage extends StatelessWidget {
                   Column(
                     children: [
                       Text('Title', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
-                      Text('Description')
+                      Text('Description'),
+                      StarRating(rating: 4.5,)
                     ],
                   )
                 ],
