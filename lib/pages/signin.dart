@@ -89,7 +89,7 @@ class _SignInPageState extends State<SignInPage> {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/signup', ModalRoute.withName('/signup'));
+                    Navigator.pushReplacementNamed(context, '/signup');
                   },
                   child: Text('Register a new account.')),
             ]

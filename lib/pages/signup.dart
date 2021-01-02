@@ -86,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.pushNamedAndRemoveUntil(context, '/signin', ModalRoute.withName('/signin'));
+                    Navigator.pushReplacementNamed(context, '/signin');
                   },
                   child: Text('Already have an account? Sign In.')),
             ],
