@@ -53,6 +53,12 @@ class HomePage extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
+                    Navigator.pushNamed(context, '/food');
+                  },
+                  child: Text('Go to food')
+              ),
+              TextButton(
+                  onPressed: () {
                     context.read<AuthModel>().logout();
                   },
                   child: Text('Logout')

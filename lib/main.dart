@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'pages/signin.dart';
 import 'pages/signup.dart';
 import 'pages/home.dart';
+import 'pages/food.dart';
 import 'pages/about.dart';
 
 // Domains.
@@ -22,6 +23,18 @@ void main() => runApp(
 );
 
 class App extends StatelessWidget {
+  final protectedRoutes = <String, WidgetBuilder> {
+    '/about': (context) => AboutPage(),
+    '/food': (context) => FoodPage(),
+  };
+
+  final publicRoutes = <String, WidgetBuilder> {
+    '/signin': (context) => SignInPage(),
+    '/signup': (context) => SignUpPage(),
+    // Dumb page to allow redirection when the user is authorized.
+    '/food': (context) => CircularProgressIndicator(),
+  };
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -32,19 +45,13 @@ class App extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              return snapshot.hasData ? MaterialApp(
-                  home: HomePage(),
-                  routes: <String, WidgetBuilder> {
-                    '/about': (BuildContext context) => AboutPage()
-                  }
-              ) : MaterialApp(
-                  home: SignInPage(),
-                  routes: <String, WidgetBuilder> {
-                    '/signin': (BuildContext context) => SignInPage(),
-                    '/signup': (BuildContext context) => SignUpPage()
-                  }
-              )
-              ;
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  // The history route is not persisted. Restore from shared preferences?
+                  // initialRoute: '/',
+                  home: snapshot.hasData ? HomePage() : SignInPage(),
+                  routes: snapshot.hasData ? protectedRoutes : publicRoutes,
+                );
             default:
               return CircularProgressIndicator();
           }
